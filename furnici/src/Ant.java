@@ -24,10 +24,13 @@ public class Ant
         return visited[i];   //returneaza starea orasului in timpul rularii
     }
 
+
+
+    //trebuie revenit la functia asta
     protected double trailLenght(double graph[][])
     {
-        double lenght = graph[trail[trailSize - 1]][trail[0]];
-        for(int i = 0; i < trailSize - 1; i++)
+        double lenght = graph[trail[trailSize - 1]][trail[0]]; //retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
+        for(int i = 0; i < trailSize - 1; i++)  //loop prin toate orasele din graph
         {
             lenght += graph[trail[i]][trail[i + 1]];
         }
