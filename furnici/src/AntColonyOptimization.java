@@ -147,18 +147,7 @@ public class AntColonyOptimization
     //update la drumurile deja traversate
     private void updateTrails()
     {
-        for (int i = 0; i < numberOfCities; i++)
-        {
-            for (int j = 0; j < numberOfCities; j++)
-                trails[i][j] *= evaporation;
-        }
-        for (Ant a : ants)
-        {
-            double contribution = Q / a.trailLength(graph);
-            for (int i = 0; i < numberOfCities - 1; i++)
-                trails[a.trail[i]][a.trail[i + 1]] += contribution;
-            trails[a.trail[numberOfCities - 1]][a.trail[0]] += contribution;
-        }
+
     }
 
     //update la cararea cea mai buna
