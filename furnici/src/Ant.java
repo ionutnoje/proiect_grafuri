@@ -28,9 +28,12 @@ public class Ant
 
     protected double trailLength(double graph[][])
     {
-        double lenght = graph[trail[trailSize - 1]][trail[0]]; //retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
+        double lenght = graph[trail[trailSize - 1]][trail[0]];//retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
+        System.out.println("graph[trail[trailSize - 1]][trail[0]]" + graph[trail[trailSize - 1]][trail[0]]);
+        System.out.println("trailsize" + trailSize);//trailsize este numerul de noduri
         for(int i = 0; i < trailSize - 1; i++)  //loop prin toate orasele din graph
         {
+            System.out.println("graph[trail[i]][trail[i + 1]]" + graph[trail[i]][trail[i + 1]]);
             lenght += graph[trail[i]][trail[i + 1]];
         }
         return lenght;
