@@ -49,7 +49,7 @@ public class AntColonyOptimization
 
         graph = generateRandomMatrix(noOfCities);
         numberOfCities = noOfCities;
-        numberOfAnts = (int) (numberOfCities * antFactor);
+        numberOfAnts = (int)(numberOfCities * antFactor);
 
         trails = new double[numberOfCities][numberOfCities];
         probabilities = new double[numberOfCities];
@@ -70,7 +70,7 @@ public class AntColonyOptimization
                 if(i==j)
                     randomMatrix[i][j]=0;
                 else
-                    randomMatrix[i][j]=Math.abs(random.nextInt(100)+1);
+                    randomMatrix[i][j]=(random.nextInt(100)+1);
             }
         }
 
@@ -99,10 +99,11 @@ public class AntColonyOptimization
             updateTrails();
             updateBest();
         }
-        s+=("\nBest tour length: " + (bestTourLength - numberOfCities));
+        s+=("\nBest tour length: " + (bestTourLength));
         s+=("\nBest tour order: " + Arrays.toString(bestTourOrder));
-        return bestTourOrder.clone();
+        return bestTourOrder;
     }
+
 
 
     private void setupAnts()
@@ -118,27 +119,27 @@ public class AntColonyOptimization
         currentIndex = 0;
     }
 
-    //la fircare iteratie mutam furnicile
+    //la fiecare iteratie mutam furnicile
     private void moveAnts()
     {
         for(int i=currentIndex;i<numberOfCities-1;i++)
         {
             for(Ant ant:ants)
             {
-                ant.visitCity(currentIndex,selectNextCity(ant));
+                ant.visitCity(currentIndex,selectNextCity());
             }
             currentIndex++;
         }
     }
 
     //selectare urmator oras pentru fiecare furnica
-    private int selectNextCity(Ant ant)
+    private int selectNextCity()
     {
         return 0;
     }
 
     //calculul probabilitatii pentru alegerea urmatourlui oras
-    public void calculateProbabilities(Ant ant)
+    public void calculateProbabilities()
     {
 
     }
@@ -172,10 +173,6 @@ public class AntColonyOptimization
     //curatarea drumurilor
     private void clearTrails()
     {
-        for(int i=0;i<numberOfCities;i++)
-        {
-            for(int j=0;j<numberOfCities;j++)
-                trails[i][j]=c;
-        }
+
     }
 }
