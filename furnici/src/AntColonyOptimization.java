@@ -100,7 +100,7 @@ public class AntColonyOptimization
     /**
      * Perform ant optimization
      */
-    public void startAntOptimization()
+    public void startAntOptimization()//functia cu care se porneste programul
     {
         for (int i = 0; i <= 3; i++)
         {
@@ -117,9 +117,9 @@ public class AntColonyOptimization
         setupAnts();//se pun toate orasele pe false in vectorul visited apoi se alege un oras de unde sa se inceapa programul
         clearTrails();//seteaza feromonul initial pentru fiecare oras la inceput de program
 
-        for(int i=0;i<maxIterations;i++)//pentru fiecare iteratie o sa se mute furnicile la urmatorul oras
-                                        // apoi o sa se updateze valoarea de feromon pentru fiecare oras
-                                        //apoi se updateaza cel mai bun drum cu cea mai buna distanta
+        for(int i=0;i<maxIterations;i++)//pentru fiecare iteratie o sa se mute furnicile la urmatorul oras prin apelul functiei moveAnts()
+                                        // apoi o sa se updateze valoarea de feromon pentru fiecare oras prin apelul functiei updateTrails()
+                                        //apoi se updateaza cel mai bun drum cu cea mai buna distanta prin apelul functiei updateBest()
         {
             moveAnts();
             updateTrails();
