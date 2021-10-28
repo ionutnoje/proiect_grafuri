@@ -192,18 +192,20 @@ public class AntColonyOptimization
     /**
      * Calculate the next city picks probabilites
      */
-    public void calculateProbabilities(Ant ant)
+    public void calculateProbabilities(Ant ant)//functia care calculeaza probabilitatea de a alege un oras
     {
-        int i = ant.trail[currentIndex];
+        int i = ant.trail[currentIndex];//valoarea de feromon din orasul curent
         double pheromone = 0.0;
         for (int l = 0; l < numberOfCities; l++)
         {
-            if (!ant.visited(l))
-                pheromone += Math.pow(trails[i][l], alpha) * Math.pow(1.0 / graph[i][l], beta);
+            if (ant.visited(l) == false)
+            {
+                pheromone += Math.pow(trails[i][l], alpha) * Math.pow(1.0 / graph[i][l], beta);//formula cu care se calculeaza peromonul pentru urmatorul oras
+            }
         }
         for (int j = 0; j < numberOfCities; j++)
         {
-            if (ant.visited(j))
+            if (ant.visited(j) == true)
                 probabilities[j] = 0.0;
             else
             {
