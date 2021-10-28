@@ -179,9 +179,12 @@ public class AntColonyOptimization
             if(cityIndex!=-1)
                 return cityIndex;
         }
+
         calculateProbabilities(ant);
+
         double r = random.nextDouble();
         double total = 0;
+
         for (int i = 0; i < numberOfCities; i++)
         {
             total += probabilities[i];
