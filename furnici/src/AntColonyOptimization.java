@@ -35,7 +35,7 @@ public class AntColonyOptimization
     private int numberOfCities;         //numarul de orase
     private int numberOfAnts;           //numarul de furnici
     private double graph[][];           //matricea graph
-    private double trails[][];
+    private double trails[][];          //matrice cu valorile feromonilor dintre orase
     private List<Ant> ants = new ArrayList<>();   //o liste de vectori
     private Random random = new Random();         //valoare generata random
     private double probabilities[];               //vector de probabilitati
@@ -62,7 +62,7 @@ public class AntColonyOptimization
     }
 
 
-    public double[][] generateRandomMatrix(int n)
+    public double[][] generateRandomMatrix(int n)//functie care seteaza distante random intre orase
     {
         double[][] randomMatrix = new double[n][n];
 
@@ -116,6 +116,7 @@ public class AntColonyOptimization
     {
         setupAnts();
         clearTrails();
+
         for(int i=0;i<maxIterations;i++)
         {
             moveAnts();
@@ -164,7 +165,7 @@ public class AntColonyOptimization
         int t = random.nextInt(numberOfCities - currentIndex);
         if (random.nextDouble() < randomFactor)
         {
-            int cityIndex=0;
+            int cityIndex=-1;
             for(int i=0;i<numberOfCities;i++)
             {
                 if(i==t && !ant.visited(i))
@@ -173,7 +174,7 @@ public class AntColonyOptimization
                     break;
                 }
             }
-            if(cityIndex!=0)
+            if(cityIndex!=-1)
                 return cityIndex;
         }
         calculateProbabilities(ant);
@@ -215,19 +216,26 @@ public class AntColonyOptimization
     /**
      * Update trails that ants used
      */
-    private void updateTrails()
+    private void updateTrails()//dupa fiecare run o sa se schimbe val feromonului ca dupa un timp anumite rute sa ramana fara
+                                // deci sa nu mai prezinte interes pentru furnici si pentru viitoare run uri
     {
         for (int i = 0; i < numberOfCities; i++)
         {
             for (int j = 0; j < numberOfCities; j++)
-                trails[i][j] *= evaporation;
+            {
+                trails[i][j] = trails[i][j] * evaporation;//aici se scade val feromonului pentru fiecare drum dintre orase
+            }
+
         }
         for (Ant a : ants)
         {
             double contribution = Q / a.trailLength(graph);
             for (int i = 0; i < numberOfCities - 1; i++)
-                trails[a.trail[i]][a.trail[i + 1]] += contribution;
-            trails[a.trail[numberOfCities - 1]][a.trail[0]] += contribution;
+            {
+                trails[a.trail[i]][a.trail[i + 1]] = trails[a.trail[i]][a.trail[i + 1]] * contribution;
+
+            }
+            trails[a.trail[numberOfCities - 1]][a.trail[0]] = trails[a.trail[numberOfCities - 1]][a.trail[0]] + contribution;
         }
     }
 
@@ -236,31 +244,38 @@ public class AntColonyOptimization
      */
     private void updateBest()
     {
-        if (bestTourOrder == null)
+        if (bestTourOrder == null)//daca vectorul cu ordinea cea mai buna este gol, adica este la prima interatie se stocheaza ordinea
         {
-            bestTourOrder = ants.get(0).trail;
-            bestTourLength = ants.get(0).trailLength(graph);
+            bestTourOrder = ants.get(0).trail;  //se ia ordinea
+            bestTourLength = ants.get(0).trailLength(graph);//se ia cea mai buna distanta
         }
-
-        for (Ant a : ants)
+        else
         {
-            if (a.trailLength(graph) < bestTourLength)
+            for (Ant a : ants)//pentru fiecare obiect de tip furnica din array ul de furnici se ia distanta di ordinea oraselor
             {
-                bestTourLength = a.trailLength(graph);
-                bestTourOrder = a.trail;
+                if (a.trailLength(graph) < bestTourLength)//daca distanta din noul run este mai scurta ca si cea anterioara se seteaza pe noua valoare
+                {
+                    bestTourLength = a.trailLength(graph);
+                    bestTourOrder = a.trail;
+                }
             }
         }
+
+
     }
 
     /**
      * Clear trails after simulation
      */
-    private void clearTrails()
+    private void clearTrails()//se seteaza dupa fiecare tura pe fiecare drum dintre orase o val pentru feromon...o valoare standard 1.0...ca sa se poate parcurge codul de la alegerea orasului
     {
         for(int i=0;i<numberOfCities;i++)
         {
             for(int j=0;j<numberOfCities;j++)
-                trails[i][j]=c;
+            {
+                trails[i][j]=c;//c este constanta c care reprezinta val de inceput de feromon pe fiecare drum dintre fiecare nod
+            }
+
         }
     }
 }
