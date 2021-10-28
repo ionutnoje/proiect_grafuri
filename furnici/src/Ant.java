@@ -9,7 +9,7 @@ public class Ant
     public Ant(int tourSize)                //functia de initializare a drumului si vectorului de orase vizitate sau nevizitate
     {
         this.trailSize = tourSize;          //se initializeaza marimea drumului
-        this.trail = new int[tourSize];     // se updateaza in timpul codului cu numarul de orase prin care a trecut
+        this.trail = new int[tourSize];     // este un vector in care se stocheaza val feromonului pentru fiecare oras
         this.visited = new boolean[tourSize]; //vectorul de orase vizitate/nevizitate//pe parcursul programului orasele prin care s a trecut o sa se seteze pe true(se tine cont de orasele vizitate si nevizitate pentru viitoare parcurgeri)
     }
 

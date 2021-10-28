@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 public class AntColonyOptimization
 {
     public String s = " ";
-    private double c;                   //numarul de drumuri
+    private double c;                   //reprezinta val de inceput pentru feromon pe fiecare drum
     private double alpha;               //importanta feromonului
     private double beta;                //prioritatea distantei
     private double evaporation;         //coeficientul de evaporare
@@ -227,15 +227,15 @@ public class AntColonyOptimization
             }
 
         }
-        for (Ant a : ants)
+        for (Ant a : ants)//for each in care pentru fiecare furnica se specifica cat feromon sa fie lasat pe drum
         {
-            double contribution = Q / a.trailLength(graph);
+            double contribution = Q / a.trailLength(graph);//aici este val de feromon pe care o sa o lase furnica pe drum
             for (int i = 0; i < numberOfCities - 1; i++)
             {
-                trails[a.trail[i]][a.trail[i + 1]] = trails[a.trail[i]][a.trail[i + 1]] * contribution;
+                trails[a.trail[i]][a.trail[i + 1]] = trails[a.trail[i]][a.trail[i + 1]] * contribution;//valoarea deja existenta de feromon o sa se inmulteazca cu val de feromon lasata de furnica
 
             }
-            trails[a.trail[numberOfCities - 1]][a.trail[0]] = trails[a.trail[numberOfCities - 1]][a.trail[0]] + contribution;
+            trails[a.trail[numberOfCities - 1]][a.trail[0]] = trails[a.trail[numberOfCities - 1]][a.trail[0]] + contribution;//valoarea de feromon dintre primul oras si ultimul(banuiesc ca toata ruta dintre ele...trecand prin fiecare oras)
         }
     }
 
