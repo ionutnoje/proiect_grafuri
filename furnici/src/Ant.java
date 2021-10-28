@@ -14,9 +14,12 @@ public class Ant
     }
 
     protected void visitCity(int currentIndex, int city)     //functie care seteaza orasul curent pe oras vizitat cu ajutorul functiei visited
+                                                              //in functie se dau currentIndex care este nr de orase deja vizitate
+                                                            //si city care este generat aleator de functia selectNextCity din clasa antcolonyoptimization
+                                                            //astfel prin trail[currentIndex + 1] = city....urmatourl spatiu din vectorul de drum este setat pe valoarea city primita random
     {
-        trail[currentIndex + 1] = city;     //orasul actual
-        visited[city] = true;               //se seteaza pe true in vectorul visited
+        trail[currentIndex + 1] = city;     //spatiul urmator din vectorul drumului o sa fie setat cu valoarea orasului ales random cu functia selectNextCity
+        visited[city] = true;               //se seteaza valoarea in vectorul visited ca fiind true pentru orasul respectiv
     }
 
     protected boolean visited(int i)
@@ -28,14 +31,15 @@ public class Ant
 
     protected double trailLength(double graph[][])
     {
-        double lenght = graph[trail[trailSize - 1]][trail[0]];//retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
-        System.out.println("graph[trail[trailSize - 1]][trail[0]]" + graph[trail[trailSize - 1]][trail[0]]);
-        System.out.println("trailsize" + trailSize);//trailsize este numerul de noduri
+        double lenght = 0;//retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
+//        System.out.println("graph[trail[trailSize - 1]][trail[0]]" + graph[trail[trailSize - 1]][trail[0]]);
+//        System.out.println("trailsize" + trailSize);//trailsize este numerul de noduri
         for(int i = 0; i < trailSize - 1; i++)  //loop prin toate orasele din graph
         {
             System.out.println("graph[trail[i]][trail[i + 1]]" + graph[trail[i]][trail[i + 1]]);
             lenght += graph[trail[i]][trail[i + 1]];
         }
+        System.out.println("se returneaza lenghtul de : " + lenght);
         return lenght;
     }
 

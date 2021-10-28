@@ -1,3 +1,6 @@
+
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +52,7 @@ public class AntColonyOptimization
 
         graph = generateRandomMatrix(noOfCities);
         numberOfCities = noOfCities;
-        numberOfAnts = (int)(numberOfCities * antFactor);
+        numberOfAnts = (int) (numberOfCities * antFactor);
 
         trails = new double[numberOfCities][numberOfCities];
         probabilities = new double[numberOfCities];
@@ -70,22 +73,42 @@ public class AntColonyOptimization
                 if(i==j)
                     randomMatrix[i][j]=0;
                 else
-                    randomMatrix[i][j]=(random.nextInt(100)+1);
+                    randomMatrix[i][j]=Math.abs(random.nextInt(100)+1);
             }
         }
+
+
+        //afisarea matricei drumurilor
+
+        s+=("\t");
+        for(int i=0;i<n;i++)
+            s+=(i+"\t");
+        s+="\n";
+
+        for(int i=0;i<n;i++)
+        {
+            s+=(i+"\t");
+            for(int j=0;j<n;j++)
+                s+=(randomMatrix[i][j]+"\t");
+            s+="\n";
+        }
+
 
         return randomMatrix;
     }
 
-
+    /**
+     * Perform ant optimization
+     */
     public void startAntOptimization()
     {
-        for(int i=1;i<=3;i++)
+        for (int i = 0; i <= 3; i++)
         {
-            s+=("\nAttempt #" +i);
+            System.out.println("varianta " + i + " de raspuns");
             solve();
-            s+="\n";
+
         }
+
     }
 
 
@@ -99,59 +122,118 @@ public class AntColonyOptimization
             updateTrails();
             updateBest();
         }
-        s+=("\nBest tour length: " + (bestTourLength));
-        s+=("\nBest tour order: " + Arrays.toString(bestTourOrder));
+        s+=("\nRuta : " + (bestTourLength));
+        s+=("\nLungimea rutei: " + Arrays.toString(bestTourOrder));
         return bestTourOrder;
     }
 
 
-
-    private void setupAnts()
-    {
+    private void setupAnts()//la inceput de program pentru fiecare obiect de tip furnica din array list se pun toate orasele vizitate pe false prin apelarea metodei clear din clasa Ant,
+    {                       // apoi se seteaza orasul de unde incepe ant optimization prin apelul metodei visitCity
+                            // variabila currentIndex este setata pe 0, ea ne ajuta pe parcursul programului sa retinem prin cate orase s a trecut
         for(int i=0;i<numberOfAnts;i++)
         {
             for(Ant ant:ants)
             {
                 ant.clear();
-                ant.visitCity(-1, random.nextInt(numberOfCities));
+                ant.visitCity(-1, 0);
             }
         }
         currentIndex = 0;
     }
 
-    //la fiecare iteratie mutam furnicile
-    private void moveAnts()
+
+    private void moveAnts()//functie care la fiecare iteratie o sa mute fiecare furnica la urmatorul oras
     {
-        for(int i=currentIndex;i<numberOfCities-1;i++)
+        for(int i=currentIndex;i<numberOfCities-1;i++)//for care porneste de la nr de orase deja vizitate si pana la nr total de orase
+                                                        //currentIndex este folosit ca un fel de contor pentru nr de orase deja vizitate
         {
-            for(Ant ant:ants)
+            for(Ant ant:ants)//for each prin obiectele de tip furnica
             {
-                ant.visitCity(currentIndex,selectNextCity());
+                ant.visitCity(currentIndex,selectNextCity(ant));//pentru fiecare furnica o sa se aleaga urmatorul oras prin apelarea functiei visitCity
             }
             currentIndex++;
         }
     }
 
-    //selectare urmator oras pentru fiecare furnica
-    private int selectNextCity()
+    /**
+     * Select next city for each ant
+     */
+    private int selectNextCity(Ant ant)
     {
-        return 0;
+        int t = random.nextInt(numberOfCities - currentIndex);
+        if (random.nextDouble() < randomFactor)
+        {
+            int cityIndex=0;
+            for(int i=0;i<numberOfCities;i++)
+            {
+                if(i==t && !ant.visited(i))
+                {
+                    cityIndex=i;
+                    break;
+                }
+            }
+            if(cityIndex!=0)
+                return cityIndex;
+        }
+        calculateProbabilities(ant);
+        double r = random.nextDouble();
+        double total = 0;
+        for (int i = 0; i < numberOfCities; i++)
+        {
+            total += probabilities[i];
+            if (total >= r)
+                return i;
+        }
+        throw new RuntimeException("There are no other cities");
     }
 
-    //calculul probabilitatii pentru alegerea urmatourlui oras
-    public void calculateProbabilities()
+    /**
+     * Calculate the next city picks probabilites
+     */
+    public void calculateProbabilities(Ant ant)
     {
-
+        int i = ant.trail[currentIndex];
+        double pheromone = 0.0;
+        for (int l = 0; l < numberOfCities; l++)
+        {
+            if (!ant.visited(l))
+                pheromone += Math.pow(trails[i][l], alpha) * Math.pow(1.0 / graph[i][l], beta);
+        }
+        for (int j = 0; j < numberOfCities; j++)
+        {
+            if (ant.visited(j))
+                probabilities[j] = 0.0;
+            else
+            {
+                double numerator = Math.pow(trails[i][j], alpha) * Math.pow(1.0 / graph[i][j], beta);
+                probabilities[j] = numerator / pheromone;
+            }
+        }
     }
 
-
-    //update la drumurile deja traversate
+    /**
+     * Update trails that ants used
+     */
     private void updateTrails()
     {
-
+        for (int i = 0; i < numberOfCities; i++)
+        {
+            for (int j = 0; j < numberOfCities; j++)
+                trails[i][j] *= evaporation;
+        }
+        for (Ant a : ants)
+        {
+            double contribution = Q / a.trailLength(graph);
+            for (int i = 0; i < numberOfCities - 1; i++)
+                trails[a.trail[i]][a.trail[i + 1]] += contribution;
+            trails[a.trail[numberOfCities - 1]][a.trail[0]] += contribution;
+        }
     }
 
-    //update la cararea cea mai buna
+    /**
+     * Update the best solution
+     */
     private void updateBest()
     {
         if (bestTourOrder == null)
@@ -165,14 +247,20 @@ public class AntColonyOptimization
             if (a.trailLength(graph) < bestTourLength)
             {
                 bestTourLength = a.trailLength(graph);
-                bestTourOrder = a.trail.clone();
+                bestTourOrder = a.trail;
             }
         }
     }
 
-    //curatarea drumurilor
+    /**
+     * Clear trails after simulation
+     */
     private void clearTrails()
     {
-
+        for(int i=0;i<numberOfCities;i++)
+        {
+            for(int j=0;j<numberOfCities;j++)
+                trails[i][j]=c;
+        }
     }
 }
