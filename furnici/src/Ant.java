@@ -24,18 +24,20 @@ public class Ant
 
     protected boolean visited(int i)
     {
-        return visited[i];   //returneaza starea orasului in timpul rularii
+        return visited[i];   //o sa returneze in timpul rularii daca orasul respectiv a fost deja vizitat sau nu
     }
 
 
 
     protected double trailLength(double graph[][])
     {
-        double lenght = 0;//retruneaza numarul de pe randul [trail[trailSize - 1]] si coloana [trail[0]]
-//        System.out.println("graph[trail[trailSize - 1]][trail[0]]" + graph[trail[trailSize - 1]][trail[0]]);
-//        System.out.println("trailsize" + trailSize);//trailsize este numerul de noduri
-        for(int i = 0; i < trailSize - 1; i++)  //loop prin toate orasele din graph
+        double lenght = 0;//se instantiaza distanta pe 0
+
+        for(int i = 0; i < trailSize - 1; i++)  //loop prin toate nodurile din graph ul oraselor
         {
+            System.out.println("\ngraph[trail[ " + i + "]][trail["+i + 1+"]]" + graph[trail[i]][trail[i + 1]]);
+            System.out.println("trail[i] " + trail[i]);
+            System.out.println("trail[i + 1]" + trail[i + 1]);
             System.out.println("graph[trail[i]][trail[i + 1]]" + graph[trail[i]][trail[i + 1]]);
             lenght += graph[trail[i]][trail[i + 1]];
         }
@@ -49,6 +51,7 @@ public class Ant
         {
             visited[i] = false;             //setarea oraselor pe false
         }
+        System.out.println("trailsize = " + trailSize);
     }
 
 
