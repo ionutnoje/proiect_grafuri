@@ -114,17 +114,19 @@ public class AntColonyOptimization
 
     public int[] solve()
     {
-        setupAnts();
-        clearTrails();
+        setupAnts();//se pun toate orasele pe false in vectorul visited apoi se alege un oras de unde sa se inceapa programul
+        clearTrails();//seteaza feromonul initial pentru fiecare oras la inceput de program
 
-        for(int i=0;i<maxIterations;i++)
+        for(int i=0;i<maxIterations;i++)//pentru fiecare iteratie o sa se mute furnicile la urmatorul oras
+                                        // apoi o sa se updateze valoarea de feromon pentru fiecare oras
+                                        //apoi se updateaza cel mai bun drum cu cea mai buna distanta
         {
             moveAnts();
             updateTrails();
             updateBest();
         }
-        s+=("\nRuta : " + (bestTourLength));
-        s+=("\nLungimea rutei: " + Arrays.toString(bestTourOrder));
+        s+=("\nRuta : " + (bestTourLength));//afisam cea mai buna distanta
+        s+=("\nLungimea rutei: " + Arrays.toString(bestTourOrder));//se afiseaza ruta cea mai buna
         return bestTourOrder;
     }
 
@@ -160,7 +162,7 @@ public class AntColonyOptimization
     /**
      * Select next city for each ant
      */
-    private int selectNextCity(Ant ant)
+    private int selectNextCity(Ant ant)//functia cu care se selecteaza urmatrul oras
     {
         int t = random.nextInt(numberOfCities - currentIndex);
         if (random.nextDouble() < randomFactor)
