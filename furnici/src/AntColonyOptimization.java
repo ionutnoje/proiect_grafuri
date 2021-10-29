@@ -68,12 +68,16 @@ public class AntColonyOptimization
 
         for(int i=0;i<n;i++)
         {
+            int test = Math.abs(random.nextInt(100)+1);
             for(int j=0;j<n;j++)
             {
                 if(i==j)
                     randomMatrix[i][j]=0;
+                else if (j < i) {
+                    randomMatrix[i][j] = randomMatrix[j][i];
+                }
                 else
-                    randomMatrix[i][j]=Math.abs(random.nextInt(100)+1);
+                    randomMatrix[i][j]= test;
             }
         }
 
