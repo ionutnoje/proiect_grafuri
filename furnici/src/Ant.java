@@ -35,10 +35,10 @@ public class Ant
 
         for(int i = 0; i < trailSize - 1; i++)  //loop prin toate nodurile din graph ul oraselor
         {
-            System.out.println("\ngraph[trail[ " + i + "]][trail["+i + 1+"]]" + graph[trail[i]][trail[i + 1]]);
-            System.out.println("trail[i] " + trail[i]);
-            System.out.println("trail[i + 1]" + trail[i + 1]);
-            System.out.println("graph[trail[i]][trail[i + 1]]" + graph[trail[i]][trail[i + 1]]);
+//            System.out.println("\ngraph[trail[ " + i + "]][trail["+i + 1+"]]" + graph[trail[i]][trail[i + 1]]);
+//            System.out.println("trail[i] " + trail[i]);
+//            System.out.println("trail[i + 1]" + trail[i + 1]);
+//            System.out.println("graph[trail[i]][trail[i + 1]]" + graph[trail[i]][trail[i + 1]]);
             lenght += graph[trail[i]][trail[i + 1]];
         }
         System.out.println("se returneaza lenghtul de : " + lenght);

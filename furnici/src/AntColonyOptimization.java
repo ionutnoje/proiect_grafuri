@@ -10,13 +10,13 @@ import java.util.stream.IntStream;
 
 /*
  * default
- * private double c = 1.0;             //number of trails
- * private double alpha = 1;           //pheromone importance
- * private double beta = 5;            //distance priority
+ * private double c = 1.0;
+ * private double alpha = 1;
+ * private double beta = 5;
  * private double evaporation = 0.5;
- * private double Q = 500;             //pheromone left on trail per ant
- * private double antFactor = 0.8;     //no of ants per node
- * private double randomFactor = 0.01; //introducing randomness
+ * private double Q = 500;
+ * private double antFactor = 0.8;
+ * private double randomFactor = 0.01;
  * private int maxIterations = 1000;
  */
 
@@ -101,9 +101,7 @@ public class AntColonyOptimization
         return randomMatrix;
     }
 
-    /**
-     * Perform ant optimization
-     */
+
     public void startAntOptimization()//functia cu care se porneste programul
     {
         for (int i = 0; i <= 3; i++)
@@ -163,9 +161,7 @@ public class AntColonyOptimization
         }
     }
 
-    /**
-     * Select next city for each ant
-     */
+
     private int selectNextCity(Ant ant)//functia cu care se selecteaza urmatrul oras
     {
         int t = random.nextInt(numberOfCities - currentIndex);
@@ -198,9 +194,7 @@ public class AntColonyOptimization
         throw new RuntimeException("There are no other cities");
     }
 
-    /**
-     * Calculate the next city picks probabilites
-     */
+
     public void calculateProbabilities(Ant ant)//functia care calculeaza probabilitatea de a alege un oras
     {
         int i = ant.trail[currentIndex];//valoarea de feromon din orasul curent
@@ -224,9 +218,7 @@ public class AntColonyOptimization
         }
     }
 
-    /**
-     * Update trails that ants used
-     */
+
     private void updateTrails()//dupa fiecare run o sa se schimbe val feromonului ca dupa un timp anumite rute sa ramana fara
                                 // deci sa nu mai prezinte interes pentru furnici si pentru viitoare run uri
     {
@@ -250,9 +242,7 @@ public class AntColonyOptimization
         }
     }
 
-    /**
-     * Update the best solution
-     */
+
     private void updateBest()
     {
         if (bestTourOrder == null)//daca vectorul cu ordinea cea mai buna este gol, adica este la prima interatie se stocheaza ordinea
@@ -275,9 +265,7 @@ public class AntColonyOptimization
 
     }
 
-    /**
-     * Clear trails after simulation
-     */
+
     private void clearTrails()//se seteaza dupa fiecare tura pe fiecare drum dintre orase o val pentru feromon...o valoare standard 1.0...ca sa se poate parcurge codul de la alegerea orasului
     {
         for(int i=0;i<numberOfCities;i++)
