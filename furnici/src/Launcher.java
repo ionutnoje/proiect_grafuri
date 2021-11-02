@@ -1,4 +1,6 @@
-public class Launcher extends javax.swing.JFrame {
+import javax.swing.*;
+
+public class Launcher extends JFrame {
 
     public Launcher() {
         initComponents();
@@ -27,6 +29,8 @@ public class Launcher extends javax.swing.JFrame {
         submit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

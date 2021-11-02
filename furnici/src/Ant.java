@@ -1,7 +1,7 @@
 public class Ant
 {
     protected int trailSize;       //marimea tuturor drumurilor...absolut toate drumurile dintre toate orasele
-    protected int trail[];          //marimea drumului pe care se afla actual furnicile
+    protected int trail[];          //vector care stocheaza valoarea feromonului din toate drumurile
     protected boolean visited[];
 
 
