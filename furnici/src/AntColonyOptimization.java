@@ -104,11 +104,9 @@ public class AntColonyOptimization
 
     public void startAntOptimization()//functia cu care se porneste programul
     {
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i <= 10; i++)
         {
-            System.out.println("varianta " + i + " de raspuns");
             solve();
-
         }
 
     }
@@ -165,8 +163,7 @@ public class AntColonyOptimization
     private int selectNextCity(Ant ant)//functia cu care se selecteaza urmatrul oras
     {
         int t = random.nextInt(numberOfCities - currentIndex);
-        if (random.nextDouble() < randomFactor)
-        {
+
             int cityIndex=-1;
             for(int i=0;i<numberOfCities;i++)
             {
@@ -176,9 +173,8 @@ public class AntColonyOptimization
                     break;
                 }
             }
-            if(cityIndex!=-1)
-                return cityIndex;
-        }
+
+
 
         calculateProbabilities(ant);
 
@@ -191,7 +187,7 @@ public class AntColonyOptimization
             if (total >= r)
                 return i;
         }
-        throw new RuntimeException("There are no other cities");
+        throw new RuntimeException("nu mai sunt orase");
     }
 
 
